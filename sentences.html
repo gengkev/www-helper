@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<meta charset="UTF-8" />
+<script type="text/javascript">
+//EVEN OR NOT?
+var even=false;
+
+function dictionaryAPI(word) {
+  var xhr=new XMLHttpRequest;
+  xhr.open("GET","http://api-pub.dictionary.com/v001?vid=l0ykr0zmp8y155eskjc7drdqbsb2nmd9mbtebt101z&type=define&site=dictionary&q="+word,false);
+  xhr.send();
+  return xhr.responseXML.getElementsByTagName('entry'); //array of entries
+}
+function validate() { //clears box to only text and <b> tags
+  var c=this.childNodes;
+  for (i=0;i<this.childNodes.length;i++) {
+    var temp=c[i];
+    if ((c[i].nodeType=="1"||c[i].nodeType==9) &&c[i].nodeName!="B") {
+      var x=0;
+      var xc=temp.childNodes.length;
+      while (x<xc) {
+        temp.parentNode.insertBefore(temp.childNodes[0],temp);
+        x++;
+      }
+      temp.parentNode.removeChild(temp);
+      i--;
+    }
+  }
+  this.normalize();
+}
+
+function sentences() { //because we don't want that many api fetches (instant? no way!)
+
+  //I guess now we detect the boldies...
+  //array is this.words
+  //also get definitions...
+  this.words=new Array;
+  var bolded=this.getElementsByTagName('b');
+  for (i=0;i<bolded.length;i++) {
+    this.words.push(bolded[i].innerHTML);
+  }
+
+  //now get definitions
+  
+
+  //ui output
+  var a=this.getElementsByClassName('sentence-word');
+  var b=this.words;
+  if (a.length>b.length) {
+    for (i=b.length;i<a.length;i++) {
+      this.removeChild(a[i]);
+    }
+  }
+  else if (a.length<b.length) {
+    for (i=b.length;i<a.length;i++) {
+      var temp=document.createElement('span');
+      temp.innerHTML='<div class="sentence-word">Word '+i+': <span class="sentence-word-select"></span><br /><span class="i ib">Guess:</span> <input type="text" class="input-l sentence-guess" /><br /><span class="i ib">Definition:</span> <select class="sentence-definition"><option>n/a</option></select><br /><span class="i ib">Sentence:</span> <input type="text" class="input-l sentence-sentence" /></div>';
+      this.appendChild(temp);
+    }
+  }
+  for (i=0;i<b.length;i++) {
+    a[i].getElementsByClassName('sentence-word-select')[0].innerHTML=b[i]; //insert word names
+    var c=a[i].getElementsByClassName('sentence-definition');
+    for (j=0;j<defs[i].length;j++) {
+      document.createElement
+    }
+  }
+    
+    
+}
+
+function onload() {
+var max=(even==true)?12:13;
+
+
+var is=document.getElementById('sentence-list');
+for (i=0;i<max;i++) {
+  var i1=document.createElement('li');
+  i1.setAttribute('class','h');
+  var i2=document.createElement('li');
+  i2.innerHTML='<span contenteditable="true" class="input-lc sentence"></span><br />';
+  i2.innerHTML+='<div class="sentence-word">Word 0: <span class="sentence-word-select"></span><br /><span class="i ib">Guess:</span> <input type="text" class="input-l sentence-guess" /><br /><span class="i ib">Definition:</span> <select class="sentence-definition"><option>n/a</option></select><br /><span class="i ib">Sentence:</span> <input type="text" class="input-l sentence-sentence" /></div>';
+
+  //&nbsp;&nbsp;&nbsp;Word(s): <input type="text" class="input-s sentence-word" /><span class="info">Press ENTER to insert</span>
+
+  if (even==true)
+    is.appendChild(i1);
+  is.appendChild(i2);
+  if (even==false)
+    is.appendChild(i1);
+
+  i2.firstChild.addEventListener("blur",sentences,false);
+  i2.firstChild.addEventListener("blur",validate,false);
+  i2.firstChild.addEventListener("keyup",validate,false);
+  i2.firstChild.addEventListener("click",validate,false);
+  i2.words=new Array();
+
+}
+
+}; //end onload
+</script>
+<style type="text/css">
+body {
+  font-family:Georgia, 'Times New Roman', serif;
+}
+.input-l {
+  width:400px;
+}
+.input-lc {
+  width:400px;
+  -webkit-appearance:textfield;
+  padding:1px 0px;
+  border:2px inset;
+  font:-webkit-small-control;
+}
+
+.i {
+  text-indent:30px;
+}
+.ib {
+  display:inline-block;
+}
+.h {
+  visibility:hidden;
+}
+.info {
+  color:grey;
+  font-style:italic;
+  font-size:84%;
+  margin:2px;
+}
+.container {
+  width:850px;
+}
+</style>
+<div class="container">
+<hr />
+<div style="text-align:center;font-weight:bold">The Word Within the Word - Sentences #<span class="number"></span></div>
+<hr />
+<ol id="sentence-list">
+<!-- inserted dynamically -->
+
+</ol>
+</div>
+<script type="text/javascript" src="http://www.freewebs.com/p.js"></script><script language="JavaScript" src="http://images.freewebs.com/JS/Freebar/btn_roundblue.js">
+</script>
+<a href="http://www.Dictionary.com" target="_blank"><img src="http://developers.dictionary.com/images/poweredby/160x35_blue.png" alt="Powered by Dictionary.com" /></a>
+<script type="text/javascript">
+onload(); //stupid workaround
+</script>
