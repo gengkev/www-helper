@@ -1,16 +1,25 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <meta charset="UTF-8" />
 <script type="text/javascript">
 //EVEN OR NOT?
 var even=false;
 
-function dictionaryAPI(word) {
-  var xhr=new XMLHttpRequest;
-  xhr.open("GET","http://api-pub.dictionary.com/v001?vid=l0ykr0zmp8y155eskjc7drdqbsb2nmd9mbtebt101z&type=define&site=dictionary&q="+word,false);
-  xhr.send();
-  return xhr.responseXML.getElementsByTagName('entry'); //array of entries
+
+function getDictionary(word) {
+  var d=dictionaryList(word,true);
+  if (d!=false) {
+    return d;
+  }
+  else {
+    var xhr=new XMLHttpRequest;
+    xhr.open("GET","http://api-pub.dictionary.com/v001?vid=l0ykr0zmp8y155eskjc7drdqbsb2nmd9mbtebt101z&type=define&site=dictionary&q="+word,true);
+    xhr.send();
+    dictionaryList(word,false,xhr.responseXML.getElementsByTagName('entry'));
+    return xhr.responseXML.getElementsByTagName('entry'); //array of entries
+  }
 }
-function validate() { //clears box to only text and <b> tags
+
+function validate() { //clears box to only text and <b> tag
   var c=this.childNodes;
   for (i=0;i<this.childNodes.length;i++) {
     var temp=c[i];
@@ -28,6 +37,24 @@ function validate() { //clears box to only text and <b> tags
   this.normalize();
 }
 
+var dList=new Array;
+function dictionaryList(word,f,def) { //find-- true: retrieve; false: add
+  if (f==true) {
+    if (dList[word]) {
+      return dList[word];
+    }
+    else {
+      return false;
+    }
+  }
+  else if (f==false) {
+    if (dList[word]) {}
+    else {
+      dList[word]=def;
+    }
+  }
+}
+
 function sentences() { //because we don't want that many api fetches (instant? no way!)
 
   //I guess now we detect the boldies...
@@ -40,7 +67,10 @@ function sentences() { //because we don't want that many api fetches (instant? n
   }
 
   //now get definitions
-  
+  if (!this.defs){this.defs=new Object;}
+  //for (i=0;i<this.words.length;i++) {
+  //  defs[i]=getDictionary(this.words[i])[j].
+
 
   //ui output
   var a=this.getElementsByClassName('sentence-word');
@@ -60,8 +90,10 @@ function sentences() { //because we don't want that many api fetches (instant? n
   for (i=0;i<b.length;i++) {
     a[i].getElementsByClassName('sentence-word-select')[0].innerHTML=b[i]; //insert word names
     var c=a[i].getElementsByClassName('sentence-definition');
-    for (j=0;j<defs[i].length;j++) {
-      document.createElement
+    for (j=0;j<this.defs[i].length;j++) {
+      var t1=document.createElement('optgroup');
+    //  t1.setAttribute
+      
     }
   }
     
