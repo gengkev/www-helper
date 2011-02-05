@@ -10,7 +10,11 @@ function getDictionary(word) {
     var xhr=new XMLHttpRequest;
     xhr.open("GET","http://api-pub.dictionary.com/v001?vid=l0ykr0zmp8y155eskjc7drdqbsb2nmd9mbtebt101z&type=define&site=dictionary&q="+word,true);
     xhr.send();
-    parseDictionary(xhr.responseXML);
+    xhr.onreadystatechange=function() {
+      if (xhr.readyState==4&&xhr.status==200) {
+        parseDictionary(xhr.responseXML);
+      }
+    }
   }
   return dList[word];
 }
@@ -64,7 +68,7 @@ function sentences() { //because we don't want that many api fetches (instant? n
   //now get definitions
   this.defs=new Array; //clear
   for (i=0;i<this.words.length;i++) {
-    defs.push(getDictionary(this.words[i]));
+    this.defs.push(getDictionary(this.words[i]));
   }
 
 
