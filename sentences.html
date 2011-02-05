@@ -4,26 +4,39 @@
 //EVEN OR NOT?
 var even=false;
 
-
+var dList=new Object();
 function getDictionary(word) {
-  var d=dictionaryList(word,true);
-  if (d!=false) {
-    return d;
-  }
-  else {
+  if (!dList[word]) {
     var xhr=new XMLHttpRequest;
     xhr.open("GET","http://api-pub.dictionary.com/v001?vid=l0ykr0zmp8y155eskjc7drdqbsb2nmd9mbtebt101z&type=define&site=dictionary&q="+word,true);
     xhr.send();
-    dictionaryList(word,false,xhr.responseXML.getElementsByTagName('entry'));
-    return xhr.responseXML.getElementsByTagName('entry'); //array of entries
+    parseDictionary(xhr.responseXML);
   }
+  return dList[word];
+}
+function parseDictionary(xml) { //naming is nonsense...
+  var defs=new Array();
+  var entries=xml.getElementsByTagName("entry");
+  for (i=0;i<defs.length;i++) {
+    var def=new Array();
+    //entry name, part of speech, definition
+    def[0]=entries[i].getElementsByTagName("display_form")[0].childNodes[0].nodeValue;
+    def[1]=entries[i].getElementsByTagName("partofspeech")[0].attributes.getNamedItem("pos").nodeValue;
+    var deflist=entries[i].getElementsByTagName("def");
+    for (j=0;j<deflist.length;j++) { //so if an entry has more than one def they become seperate entries
+      def[2]=entries[i].getElementsByTagName("def")[j].childNodes[0].nodeValue;
+      defs.push(def);
+    }
+  }
+  var word=document.getElementsByTagName("dictionary")[0].attributes.getNamedItem("query").nodeValue;
+  dList[word]=defs.slice(0);
 }
 
-function validate() { //clears box to only text and <b> tag
+function validate() { //clears box to only text and <b> and <i> tags
   var c=this.childNodes;
   for (i=0;i<this.childNodes.length;i++) {
     var temp=c[i];
-    if ((c[i].nodeType=="1"||c[i].nodeType==9) &&c[i].nodeName!="B") {
+    if ((c[i].nodeType==1||c[i].nodeType==9) &&c[i].nodeName!="B" &&c[i].nodeName!="I") {
       var x=0;
       var xc=temp.childNodes.length;
       while (x<xc) {
@@ -35,24 +48,6 @@ function validate() { //clears box to only text and <b> tag
     }
   }
   this.normalize();
-}
-
-var dList=new Array;
-function dictionaryList(word,f,def) { //find-- true: retrieve; false: add
-  if (f==true) {
-    if (dList[word]) {
-      return dList[word];
-    }
-    else {
-      return false;
-    }
-  }
-  else if (f==false) {
-    if (dList[word]) {}
-    else {
-      dList[word]=def;
-    }
-  }
 }
 
 function sentences() { //because we don't want that many api fetches (instant? no way!)
@@ -67,13 +62,14 @@ function sentences() { //because we don't want that many api fetches (instant? n
   }
 
   //now get definitions
-  if (!this.defs){this.defs=new Object;}
-  //for (i=0;i<this.words.length;i++) {
-  //  defs[i]=getDictionary(this.words[i])[j].
+  this.defs=new Array; //clear
+  for (i=0;i<this.words.length;i++) {
+    defs.push(getDictionary(this.words[i]));
+  }
 
 
   //ui output
-  var a=this.getElementsByClassName('sentence-word');
+  var a=this.parentNode.getElementsByClassName('sentence-word');
   var b=this.words;
   if (a.length>b.length) {
     for (i=b.length;i<a.length;i++) {
@@ -87,17 +83,19 @@ function sentences() { //because we don't want that many api fetches (instant? n
       this.appendChild(temp);
     }
   }
+  // CONFUSING NAMES!! wil lchange in later revisions but for now working is good!
   for (i=0;i<b.length;i++) {
     a[i].getElementsByClassName('sentence-word-select')[0].innerHTML=b[i]; //insert word names
     var c=a[i].getElementsByClassName('sentence-definition');
-    for (j=0;j<this.defs[i].length;j++) {
-      var t1=document.createElement('optgroup');
-    //  t1.setAttribute
+
+    for (j=0;j<this.defs.length;j++) { //translating the arrays into the UI :-|
+      // remember: defs (bunch of words) -> list of definitions ->
+      //   [word name, part of speech, defintion]
+      // a is a list of where the actual word names go
+      // b is a list of the words
       
     }
   }
-    
-    
 }
 
 function onload() {
