@@ -11,8 +11,14 @@ function getDictionary(word) {
     xhr.open("GET","http://api-pub.dictionary.com/v001?vid=l0ykr0zmp8y155eskjc7drdqbsb2nmd9mbtebt101z&type=define&site=dictionary&q="+word,true);
     xhr.send();
     xhr.onreadystatechange=function() {
-      if (xhr.readyState==4&&xhr.status==200) {
-        parseDictionary(xhr.responseXML);
+      if (xhr.readyState==4) {
+        if (xhr.status==200) {
+          parseDictionary(xhr.responseXML);
+        }
+        else {
+          var error="Error: could not connect to Dictionary.com API"
+          console.error(error);
+        }
       }
     }
   }
@@ -76,20 +82,20 @@ function sentences() { //because we don't want that many api fetches (instant? n
   var a=this.parentNode.getElementsByClassName('sentence-word');
   var b=this.words;
   if (a.length>b.length) {
-    for (i=b.length;i<a.length;i++) {
+    for (i=b.length;i>a.length;i++) {
       this.removeChild(a[i]);
     }
   }
   else if (a.length<b.length) {
-    for (i=b.length;i<a.length;i++) {
+    for (i=a.length;i<b.length;i++) {
       var temp=document.createElement('span');
-      temp.innerHTML='<div class="sentence-word">Word '+i+': <span class="sentence-word-select"></span><br /><span class="i ib">Guess:</span> <input type="text" class="input-l sentence-guess" /><br /><span class="i ib">Definition:</span> <select class="sentence-definition"><option>n/a</option></select><br /><span class="i ib">Sentence:</span> <input type="text" class="input-l sentence-sentence" /></div>';
-      this.appendChild(temp);
+      temp.innerHTML='<div class="sentence-word">Word '+(parseInt(i)+1)+': <span class="sentence-word-select"></span><br /><span class="i ib">Guess:</span> <input type="text" class="input-l sentence-guess" /><br /><span class="i ib">Definition:</span> <select class="sentence-definition"><option>n/a</option></select><br /><span class="i ib">Sentence:</span> <input type="text" class="input-l sentence-sentence" /></div>';
+      this.parentNode.appendChild(temp);
     }
   }
   // CONFUSING NAMES!! wil lchange in later revisions but for now working is good!
   for (i=0;i<b.length;i++) {
-    a[i].getElementsByClassName('sentence-word-select')[0].innerHTML=b[i]; //insert word names
+    this.parentNode.getElementsByClassName('sentence-word-select')[i].innerHTML=b[i]; //insert word names
     var c=a[i].getElementsByClassName('sentence-definition');
 
     for (j=0;j<this.defs.length;j++) { //translating the arrays into the UI :-|
@@ -112,7 +118,7 @@ for (i=0;i<max;i++) {
   i1.setAttribute('class','h');
   var i2=document.createElement('li');
   i2.innerHTML='<span contenteditable="true" class="input-lc sentence"></span><br />';
-  i2.innerHTML+='<div class="sentence-word">Word 0: <span class="sentence-word-select"></span><br /><span class="i ib">Guess:</span> <input type="text" class="input-l sentence-guess" /><br /><span class="i ib">Definition:</span> <select class="sentence-definition"><option>n/a</option></select><br /><span class="i ib">Sentence:</span> <input type="text" class="input-l sentence-sentence" /></div>';
+  i2.innerHTML+='<div class="sentence-word">Word 1: <span class="sentence-word-select"></span><br /><span class="i ib">Guess:</span> <input type="text" class="input-l sentence-guess" /><br /><span class="i ib">Definition:</span> <select class="sentence-definition"><option>n/a</option></select><br /><span class="i ib">Sentence:</span> <input type="text" class="input-l sentence-sentence" /></div>';
 
   //&nbsp;&nbsp;&nbsp;Word(s): <input type="text" class="input-s sentence-word" /><span class="info">Press ENTER to insert</span>
 
