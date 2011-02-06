@@ -75,8 +75,7 @@ function sentences() { //because we don't want that many api fetches (instant? n
   //also get definitions...
   this.words=new Array;
   var bolded=this.getElementsByTagName('b');
-  var bolded2=this.getElementsByTagName('strong');
-  bolded=bolded.concat(bolded2);
+  if (bolded.length==0) bolded=this.getElementsByTagName('strong');
   for (i=0;i<bolded.length;i++) {
     var bolds=bolded[i].innerHTML.split(" ");
     for (j=0;j<bolds.length;j++) {
@@ -101,9 +100,10 @@ function sentences() { //because we don't want that many api fetches (instant? n
   }
   else if (a.length<b.length) {
     for (i=a.length;i<b.length;i++) {
-      var temp=document.createElement('span');
-      temp.innerHTML='<div class="sentence-word">Word '+(parseInt(i)+1)+': <span class="sentence-word-select"></span><br /><span class="i ib">Guess:</span> <input type="text" class="input-l sentence-guess" /><br /><span class="i ib">Definition:</span> <select class="sentence-definition"></select><br /><span class="i ib">Sentence:</span> <input type="text" class="input-l sentence-sentence" /></div>';
-      this.parentNode.appendChild(temp);
+      var div=document.createElement('div');
+      div.setAttribute('class','sentence-word');
+      div.innerHTML='Word '+(parseInt(i)+1)+': <span class="sentence-word-select"></span><br /><span class="i ib">Guess:</span> <input type="text" class="input-l sentence-guess" /><br /><span class="i ib">Definition:</span> <select class="sentence-definition"></select><br /><span class="i ib">Sentence:</span> <input type="text" class="input-l sentence-sentence" />';
+      this.parentNode.appendChild(div);
     }
   }
   // CONFUSING NAMES!! wil lchange in later revisions but for now working is good!
