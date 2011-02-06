@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<meta charset="UTF-8" />
+<meta name="author" content="Kevin Geng" />
+<link href='http://fonts.googleapis.com/css?family=Coming+Soon|Cantarell' rel='stylesheet' type='text/css'>
+<style type="text/css">
+body {
+  text-align:center;
+  background-color:grey;
+}
+#container {
+  position:relative;
+  margin: 5px auto;
+  border-radius:15px;
+  width:50%;
+  height:500px;
+  border:1px solid grey;
+  padding:15px;
+  background-color:#CCF2FF;
+  background-image:-webkit-gradient(linear, left bottom, right top, from(#66D9FF), to(#E7F5FB));
+  color:#E6E6E6;
+}
+h1#title {
+  color:white;
+  margin-top:15%;
+  font-family:'Coming Soon',Tahoma,Arial,sans-serif;
+  text-shadow:2px 2px 3px grey;
+  font-size:48px;
+  letter-spacing:3px;
+}
+a[title='Sign In'] {
+  position:absolute;
+  top:10px;
+  right:10px;
+  display:inline-block;
+  background-color:#FFA366;
+  color:white;
+  text-decoration:none;
+  border-radius:10px;
+  padding:5px;
+  font-family:Cantarell;
+}
+a[title='Sign In']:hover {
+  text-decoration:underline;
+  text-shadow:1px 1px 1px #FF6600;
+}
+#actions {
+  color:#0099FF;
+  text-align:center;
+  font-family:Cantarell;
+}
+#actions a[title='New Project'], #actions label[title='Open Project'] {
+  display:inline-block;
+  color:white;
+  background-color:#0099FF;
+  padding:5px;
+  height:25px;
+  border-radius:10px;
+  text-decoration:none;
+}
+#actions a[title='New Project']:hover {
+  text-decoration:underline;
+}
+</style>
+<div id="container">
+<h1 id="title">Welcome to <abbr title="The Word within the Word Helper">WWW-Helper</abbr>!</h1>
+<a href="" title="Sign In">Sign In</a>
+<br />
+<div id="actions">
+<h2>What would you like to do?</h2>
+<a href="" title="New Project">Start a New Project</a>
+<label title="Open Project" for="openproject">Open an Existing Project 
+<select id="openproject"><option value="">-------</option></select></label>
+</div>
+</div>
