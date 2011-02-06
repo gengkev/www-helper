@@ -3,13 +3,9 @@
 <title>WWW-Helper - Sentences</title>
 <script type="text/javascript">
 //EVEN OR NOT?
-var even_odd=confirm("Would you like to do evens or odds?\n                        OK: Odds; Cancel: Evens");
+var even_odd=confirm("Would you like to do evens or odds?\n\nOK: Odds; Cancel: Evens");
 
-var dList={
-  "pie": [["pi/pi","noun","A scrumptious food"]],
-  "larry": [["larry","noun","An annoying kid"]],
-  "ilikehamm": [["ilikehamm","verb","Richard's website"]]
-};
+var dList=new Array();
 function getDictionary(word) {
   if (!dList[word]) {
     var xhr=new XMLHttpRequest;
