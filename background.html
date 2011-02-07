@@ -1,0 +1,35 @@
+<!--
+    This file is part of WWW-Helper.
+
+    WWW-Helper is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WWW-Helper is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WWW-Helper.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<!DOCTYPE html>
+<script type="text/javascript" src="oauth/chrome_ex_oauthsimple.js"></script>
+<script type="text/javascript" src="oauth/chrome_ex_oauth.js"></script>
+<script type="text/javascript">
+function OAuth() {
+  var oauth = ChromeExOAuth.initBackgroundPage({
+    'request_url': 'https://www.google.com/accounts/OAuthGetRequestToken',
+    'authorize_url': 'https://www.google.com/accounts/OAuthAuthorizeToken',
+    'access_url': 'https://www.google.com/accounts/OAuthGetAccessToken',
+    'consumer_key': 'anonymous',
+    'consumer_secret': 'anonymous',
+    'scope': 'https://docs.google.com/feeds/',
+    'app_name': 'WWW-Helper'
+  });
+  oauth.authorize(function() {
+    alert("And we have...authorization! :P");
+  });
+}
+</script>

@@ -1,5 +1,5 @@
 {
-  "name": "The Word within the Word Helper",
+  "name": "WWW-Helper",
   "description": "Make doing The Word within the Word faster and easier without cheating.",
   "version": "0.1",
   "app": {
@@ -7,13 +7,15 @@
       "local_path": "main.html"
     }
   },
-  //"background_page":"background.html",
+  "background_page":"background.html",
   //"icons": {
   //  "16": "icon_16.png",
   //  "128": "icon_128.png"
   //},
   "permissions": [
     "http://api-pub.dictionary.com/",
-    "https://docs.google.com/"
+    "https://docs.google.com/",
+    "https://www.google.com/accounts/",
+    "tabs"
   ]
 }
