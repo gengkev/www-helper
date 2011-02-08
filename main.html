@@ -24,8 +24,12 @@ function signIn() {
   chrome.extension.getBackgroundPage().OAuth();
 }
 function license() {
-  document.getElementById('license').style.visibility='visible';
+  document.getElementById('license').style.display='block';
   document.getElementById('license').style.zIndex="200";
+}
+function closeLicense() {
+  document.getElementById('license').style.display='none';
+  document.getElementById('license').style.zIndex="-1";
 }
 </script>
 <style type="text/css">
@@ -87,15 +91,28 @@ a[title='Sign In']:hover {
   text-decoration:underline;
 }
 .popup {
-  visibility:hidden;
+  display:none;
   z-index:-1;
-  margin:-500px auto 0px auto;
+  margin:auto;
   text-align:center;
   background-color:white;
-  width:600px;
-  height:600px;
-  border-radius:10px;
+  width:720px;
+  height:490px;
+  position:absolute;
+  top:10px;
+  left:60px;
+}
+.popup iframe {
   border:none;
+  width:100%;
+  height:100%;
+  margin:auto;
+}
+.popup div.x {
+position:absolute;right:16px;width:36px;height:24px;color:white;text-align:center;padding:0px;font-weight:bold;border-bottom-left-radius:5px;cursor:default;background-color:#FF6347;
+}
+.popup div.x:hover {
+  background-color:#DC143C;
 }
 </style>
 <div id="container">
@@ -107,8 +124,10 @@ a[title='Sign In']:hover {
 <a href="" title="New Project">Start a New Project</a>
 <label title="Open Project" for="openproject">Open an Existing Project 
 <select id="openproject"><option value="">-------</option></select></label>
+<div id="license" class="popup">
+<div class="x" onclick="closeLicense()">X</div>
+<iframe src="license.html"></iframe>
 </div>
 <br />
 <a href="#" onclick="license();">License</a>
 </div>
-<iframe src="license.html" id="license" class="popup" />
