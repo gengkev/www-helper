@@ -19,10 +19,13 @@
 <meta name="author" content="Kevin Geng" />
 <title>WWW-Helper</title>
 <link href='http://fonts.googleapis.com/css?family=Coming+Soon|Cantarell' rel='stylesheet' type='text/css'>
-
 <script type="text/javascript">
 function signIn() {
   chrome.extension.getBackgroundPage().OAuth();
+}
+function license() {
+  document.getElementById('license').style.visibility='visible';
+  document.getElementById('license').style.zIndex="200";
 }
 </script>
 <style type="text/css">
@@ -83,6 +86,17 @@ a[title='Sign In']:hover {
 #actions a[title='New Project']:hover {
   text-decoration:underline;
 }
+.popup {
+  visibility:hidden;
+  z-index:-1;
+  margin:-500px auto 0px auto;
+  text-align:center;
+  background-color:white;
+  width:600px;
+  height:600px;
+  border-radius:10px;
+  border:none;
+}
 </style>
 <div id="container">
 <h1 id="title">Welcome to <abbr title="The Word within the Word Helper">WWW-Helper</abbr>!</h1>
@@ -94,6 +108,7 @@ a[title='Sign In']:hover {
 <label title="Open Project" for="openproject">Open an Existing Project 
 <select id="openproject"><option value="">-------</option></select></label>
 </div>
-<a href="license.txt">Licensed under the GNU General Public License</a>
+<br />
+<a href="#" onclick="license();">License</a>
 </div>
-<div id="signin">
+<iframe src="license.html" id="license" class="popup" />
