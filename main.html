@@ -21,11 +21,13 @@
 <link href='http://fonts.googleapis.com/css?family=Coming+Soon|Cantarell' rel='stylesheet' type='text/css'>
 <script type="text/javascript">
 function signIn() {
-  chrome.extension.getBackgroundPage().OAuth();
+  chrome.extension.getBackgroundPage().authorize(function(login) {
+    document.querySelector("a[title='Sign In']").innerHTML=(login==true)?"Sign Out":"Sign In";
+  });
 }
 function license() {
-  document.getElementById('license').style.display='block';
   document.getElementById('license').style.zIndex="200";
+  document.getElementById('license').style.display='block';
 }
 function closeLicense() {
   document.getElementById('license').style.display='none';
@@ -37,8 +39,14 @@ body {
   text-align:center;
   background-color:grey;
 }
+* {
+  -webkit-transition:0.2s ease-in;
+  -o-transition:0.2s ease-in;
+  -moz-transition:0.2s ease-in;
+  transition:0.2s ease-in;
+}
 #container {
-  position:relative;
+  position:relative; /* trick for "Sign In" positioning */
   margin: 5px auto;
   border-radius:15px;
   width:50%;
@@ -65,30 +73,39 @@ a[title='Sign In'] {
   background-color:#FFA366;
   color:white;
   text-decoration:none;
-  border-radius:10px;
-  padding:5px;
+  border-radius:15px;
+  padding:10px;
   font-family:Cantarell;
 }
 a[title='Sign In']:hover {
-  text-decoration:underline;
+  background-color:#E6935C;
   text-shadow:1px 1px 1px #FF6600;
 }
 #actions {
-  color:#0099FF;
+  color:#008AE6;
   text-align:center;
   font-family:Cantarell;
 }
-#actions a[title='New Project'], #actions label[title='Open Project'] {
+#actions a.actions {
   display:inline-block;
   color:white;
-  background-color:#0099FF;
-  padding:5px;
-  height:25px;
+  background-color:#19A3FF;
+  padding:8px 6px;
+  width:200px;
+  margin:0 40px;
   border-radius:10px;
   text-decoration:none;
 }
-#actions a[title='New Project']:hover {
-  text-decoration:underline;
+#actions a.actions:hover {
+  background-color:#006BB2;
+  text-shadow:2px 2px 3px #0099FF;
+}
+
+a[rel=license] {
+  position:relative;
+  top:120px;
+  color:blue;
+  text-decoration:none;
 }
 .popup {
   display:none;
@@ -96,11 +113,16 @@ a[title='Sign In']:hover {
   margin:auto;
   text-align:center;
   background-color:white;
+  padding:20px 51px;
+  background-color:transparent;
+  background-color:rgba(160,160,160,0.7);
+  /* padding:17px 0 6px 6px; */
+  border-radius:10px;
   width:720px;
   height:490px;
   position:absolute;
-  top:10px;
-  left:60px;
+  top:0px;
+  left:0px;
 }
 .popup iframe {
   border:none;
@@ -109,10 +131,16 @@ a[title='Sign In']:hover {
   margin:auto;
 }
 .popup div.x {
-position:absolute;right:16px;width:36px;height:24px;color:white;text-align:center;padding:0px;font-weight:bold;border-bottom-left-radius:5px;cursor:default;background-color:#FF6347;
+position:absolute;right:0px;top:0px;width:36px;color:white;font-size:14px;text-align:center;padding:0px;font-weight:bold;border-radius:0 10px 0 5px;cursor:default;background-color:#FF4500;
+  border:1px solid grey;
+  -webkit-transition:0.05s ease-in;
+  -o-transition:0.05s ease-in;
+  -moz-transition:0.05s ease-in;
+  transition:0.05s ease-in;
 }
 .popup div.x:hover {
   background-color:#DC143C;
+  box-shadow:0px 0px 10px #FF0000;
 }
 </style>
 <div id="container">
@@ -121,13 +149,14 @@ position:absolute;right:16px;width:36px;height:24px;color:white;text-align:cente
 <br />
 <div id="actions">
 <h2>What would you like to do?</h2>
-<a href="" title="New Project">Start a New Project</a>
-<label title="Open Project" for="openproject">Open an Existing Project 
-<select id="openproject"><option value="">-------</option></select></label>
+<a href="" title="New Project" class="actions">Start a New Project</a>
+<a href="" title="Open Project" class="actions">Open an Existing Project</a>
+<!--<label title="Open Project" for="openproject">Open an Existing Project 
+    <select id="openproject"><option value="">-------</option></select></label-->
+<br />
+<a rel="license" href="license.html" onclick="license();return false;">License</a>
 <div id="license" class="popup">
 <div class="x" onclick="closeLicense()">X</div>
 <iframe src="license.html"></iframe>
 </div>
-<br />
-<a href="#" onclick="license();">License</a>
 </div>

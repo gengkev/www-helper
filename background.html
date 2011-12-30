@@ -18,19 +18,24 @@
 <script type="text/javascript" src="oauth/chrome_ex_oauthsimple.js"></script>
 <script type="text/javascript" src="oauth/chrome_ex_oauth.js"></script>
 <script type="text/javascript">
-function OAuth() {
-  var oauth = ChromeExOAuth.initBackgroundPage({
-    'request_url': 'https://www.google.com/accounts/OAuthGetRequestToken',
-    'authorize_url': 'https://www.google.com/accounts/OAuthAuthorizeToken',
-    'access_url': 'https://www.google.com/accounts/OAuthGetAccessToken',
-    'consumer_key': 'anonymous',
-    'consumer_secret': 'anonymous',
-    'scope': 'https://docs.google.com/feeds/',
-    'app_name': 'WWW-Helper',
-    'calback_page': 'chrome_ex_oauth.html'
+var oauth = ChromeExOAuth.initBackgroundPage({
+  'request_url': 'https://www.google.com/accounts/OAuthGetRequestToken',
+  'authorize_url': 'https://www.google.com/accounts/OAuthAuthorizeToken',
+  'access_url': 'https://www.google.com/accounts/OAuthGetAccessToken',
+  'consumer_key': 'anonymous',
+  'consumer_secret': 'anonymous',
+  'scope': 'https://docs.google.com/feeds/',
+  'app_name': 'WWW-Helper',
+  'calback_page': 'oauth/chrome_ex_oauth.html'
   });
-  oauth.authorize(function() {
-    alert("And we have...authorization! :P");
-  });
+
+function authorize(callback) {
+  if (oauth.hasToken()) { //log out
+    oauth.clearTokens();
+    callback(false);
+  }
+  else { //log in
+    oauth.authorize(function(){callback(true);});
+  }
 }
 </script>

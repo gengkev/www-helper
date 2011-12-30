@@ -45,18 +45,25 @@ function getDictionary(word) {
 function parseDictionary(xml) { //naming is nonsense...
   var defs=new Array();
   var entries=xml.getElementsByTagName("entry");
-  for (i=0;i<defs.length;i++) {
+  for (i=0;i<entries.length;i++) {
     var def=new Array();
     //entry name, part of speech, definition
     def[0]=entries[i].getElementsByTagName("display_form")[0].childNodes[0].nodeValue;
-    def[1]=entries[i].getElementsByTagName("partofspeech")[0].attributes.getNamedItem("pos").nodeValue;
     var deflist=entries[i].getElementsByTagName("def");
     for (j=0;j<deflist.length;j++) { //so if an entry has more than one def they become seperate entries
-      def[2]=entries[i].getElementsByTagName("def")[j].childNodes[0].nodeValue;
-      defs.push(def);
+      def[1]=entries[i].getElementsByTagName("def")[j].childNodes[0].nodeValue;
+      try { def[2]="("+entries[i].getElementsByTagName("def")[j].parentNode.parentNode.attributes["pos"].nodeValue+")"; }
+      catch(e) { def[2]=""; }
+      defs.push(def.slice(0));
     }
   }
-  var word=document.getElementsByTagName("dictionary")[0].attributes.getNamedItem("query").nodeValue;
+  var word=xml.getElementsByTagName("dictionary")[0].attributes.getNamedItem("query").nodeValue; 
+  if (entries.length==0) {
+    defs[0]=new Array();
+    defs[0][0]=word;
+    defs[0][1]="no results found";
+    defs[0][2]="";
+  }
   dList[word]=defs.slice(0);
 }
 
@@ -124,6 +131,10 @@ function sentences() { //because we don't want that many api fetches (instant? n
     this.parentNode.getElementsByClassName('sentence-word-select')[i].innerHTML=b[i]; //insert word names
     var c=a[i].parentNode.getElementsByClassName('sentence-definition')[0];
     var defList=getDictionary(this.words[i]); //array of definitions for current word
+    // clear all
+    for (j=0;j<defList.length;j++) {
+      c.innerHTML="";
+    }
 
     //loop through every definition
     for (j=0;j<defList.length;j++) { //translating the arrays into the UI :-|
@@ -133,13 +144,13 @@ function sentences() { //because we don't want that many api fetches (instant? n
       // c is the UI definition list
       var item=document.createElement("option");
       item.value=j;
-      item.innerHTML=defList[j][0]+": "+defList[j][2]+" ("+defList[j][1]+")";
+      item.innerHTML=defList[j][0]+": "+defList[j][1]+" "+defList[j][2];
       c.appendChild(item);
     }
   }
 }
 
-function onload() {
+window.addEventListener("load",function() {
 var max=(even_odd==true)?13:12;
 
 
@@ -166,7 +177,7 @@ for (i=0;i<max;i++) {
 
 }
 
-}; //end onload
+},false);
 </script>
 <style type="text/css">
 body {
@@ -215,4 +226,3 @@ ol#sentence-list li {
 </ol>
 </div>
 <a href="http://www.Dictionary.com" target="_blank"><img src="http://developers.dictionary.com/images/poweredby/160x35_blue.png" alt="Powered by Dictionary.com" style="border:0px" /></a>
-<script>onload();</script>
