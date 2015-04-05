@@ -8,8 +8,9 @@ Actually, the UI was pretty bad too (as well as spelling, apparently), looking a
 
 ![Welcome to WWW-Helper!](http://i.imgur.com/GO0uu2B.jpg)
 
-The inspiration behind this project was The Word Within the Word, which you can Google. This was probably
-a useful thing for me to be doing, but I was a bit annoyed at several repetitive aspects of the exercises.
+The inspiration behind this project was [The Word Within the Word](http://www.rfwp.com/series4.htm). That
+program was probably actually a useful thing for me to be doing, but I was a bit annoyed at several 
+repetitive aspects of the exercises.
 
 The only real thing I ended up accomplishing was looking up definitions using the Dictionary.com developer
 API, which no longer exists. I think I was planning to use [Wordnik](https://www.wordnik.com/) as well,
