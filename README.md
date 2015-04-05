@@ -4,7 +4,11 @@ Automatically exported from code.google.com/p/www-helper
 I was in elementary school when writing this code, so please don't judge too hard. (Actually,
 just looking at the code gives me a headache.)
 
-The premise of this project was The Word Within the Word, which you can find on Google. This was probably
+Actually, the UI was pretty bad too (as well as spelling, apparently), looking at it now:
+
+![Welcome to WWW-Helper!](http://i.imgur.com/GO0uu2B.jpg)
+
+The inspiration behind this project was The Word Within the Word, which you can Google. This was probably
 a useful thing for me to be doing, but I was a bit annoyed at several repetitive aspects of the exercises.
 
 The only real thing I ended up accomplishing was looking up definitions using the Dictionary.com developer
